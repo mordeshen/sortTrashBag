@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Asio Review</string>
+    <string name="add_trash_bag">Add Trash Bag</string>
+    <string name="fake_data">Fake Data</string>
+    <string name="remains_rounds">remains rounds:</string>
+    <string name="enter_weight">Enter Weight</string>
+    <string name="enter_id">Enter Id</string>
+    <string name="calculate_now">Calculate Now!</string>
+    <string name="approve_the_item">Approve the item</string>
+    <string name="kg">Kg.</string>
+    <string name="delete_item">delete item</string>
+    <string name="first_trash_bag">First Trash Bag</string>
+    <string name="second_trash_bag">Second Trash Bag</string>
+    <string name="id">id</string>
+    <string name="weight">weight</string>
+</resources>

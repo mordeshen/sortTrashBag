@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">:) זה מסווג</string>
+    <string name="add_trash_bag">הוסף שקית זבל</string>
+    <string name="fake_data">קיצור דרך</string>
+    <string name="calculate_now">יאללה בוא נחשב</string>
+    <string name="remains_rounds">מס\' הסיבובים שנשארו:</string>
+    <string name="enter_weight">הכנס משקל</string>
+    <string name="enter_id">הכנס את מספר השקית</string>
+    <string name="approve_the_item">אישור לפרטי השקית</string>
+    <string name="kg">Kg.</string>
+    <string name="first_trash_bag">שקית ראשונה</string>
+    <string name="second_trash_bag">שקית שנייה</string>
+    <string name="id">מספר שקית</string>
+    <string name="weight">משקל</string>
+    <string name="delete_item">למחוק ת\'פריט</string>
+</resources>
