@@ -2,6 +2,7 @@ package com.mor.asiorv
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.mor.asiorv.ui.BagListAdapter
 import com.mor.asiorv.util.TopSpacingItemDecoration
 import com.mor.asiorv.util.visiBool
 
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
 
     //    list
@@ -51,12 +53,14 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
         setPointer()
         setClickListener()
         setRv()
+        testList()
     }
 
     private fun addItemToList() {
-        if (!weightContent.text.isNullOrEmpty()){
+        if (!weightContent.text.isNullOrEmpty() && !idContent.text.isNullOrEmpty()){
             val weight = weightContent.text.toString().toDouble()
             val title = idContent.text.toString()
+
 
             if (weight in 1.01..1.99){
                 val index = calcIndex(weight)
@@ -84,28 +88,51 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
 
     }
 
-    private fun prepareDataForList(){
-        pb.visiBool(true)
-//        bagListOverWeight.trimToSize()
 
-        if(list2Kg.size>0 || list1Kg.size>0){
+    fun testList(){
+
+        val list2 = arrayListOf<TrashBag>(
+            TrashBag("3",2.5),
+            TrashBag("5",2.08),
+            TrashBag("9",2.2),
+            TrashBag("10",2.4)
+        )
+        val list1 = arrayListOf<TrashBag>(
+            TrashBag("1",1.01),
+            TrashBag("2",1.08),
+            TrashBag("4",1.4),
+            TrashBag("6",1.01),
+            TrashBag("7",1.8),
+            TrashBag("8",1.5),
+        )
+        prepareDataForList(list1 = list1, list2 = list2)
+        totalList.forEach{
+            Log.e(TAG, "testList: 1 ${it.trash1} 2 ${it.trash2}  " )
+        }
+    }
+
+    private fun prepareDataForList(list1:ArrayList<TrashBag>,list2:ArrayList<TrashBag>){
+        pb.visiBool(true)
+
+        if(list2.isNotEmpty() || list1.isNotEmpty()){
+            list1.sortedBy { it.weight }
             Toast.makeText(this, "calculating...", Toast.LENGTH_SHORT).show()
 
-            var end: Int = list1Kg.size-1
+            var end: Int = list1.size-1
             var start = 0
             while (end>start){
-                val current = PairTrashBag(list1Kg[start], list1Kg[end])
+                val current = PairTrashBag(list1[start], list1[end])
                 if (current.check()){
                     totalList.add(current)
                     start ++
                     end --
                 }else{
-                    list2Kg.add(list1Kg[end])
+                    list2.add(list1[end])
                     end --
                 }
             }
 
-            list2Kg.forEach {
+            list2.forEach {
                 totalList.add(PairTrashBag(it))
             }
             updateAndShowRv(true)
@@ -161,7 +188,7 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
         }
 
         btnCalc.setOnClickListener {
-            prepareDataForList()
+            prepareDataForList(list1Kg,list2Kg)
             btnCalc.visiBool(false)
         }
 
