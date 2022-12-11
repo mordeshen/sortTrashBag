@@ -74,12 +74,12 @@ class BagListAdapter(private val interaction: Interaction? = null) :
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
-            itemView.findViewById<TextView>(R.id.item_id_content_first_bag).text = item.trash1.title
+            itemView.findViewById<TextView>(R.id.item_id_content_first_bag).text = String.format("%.3s",item.trash1.id.toString())
             itemView.findViewById<TextView>(R.id.item_weight_content_first_bag).text = item.trash1.weight.toString()
 
             if(item.trash2.weight != 0.0){
                 secondItemViewVisible(true)
-                itemView.findViewById<TextView>(R.id.item_id_content_second_bag).text = item.trash2.title
+                itemView.findViewById<TextView>(R.id.item_id_content_second_bag).text = String.format("%.3s",item.trash2.id.toString())
                 itemView.findViewById<TextView>(R.id.item_weight_content_second_bag).text = item.trash2.weight.toString()
             }else{
                 secondItemViewVisible(false)

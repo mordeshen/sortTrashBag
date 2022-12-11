@@ -92,19 +92,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline2">
 
-        <EditText
-            android:id="@+id/et_insert_id"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:ems="10"
-            android:hint="7"
-            android:inputType="numberSigned"
-            android:minHeight="48dp"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/weight_insert_title"
-            app:layout_constraintEnd_toEndOf="@+id/weight_insert_title"
-            app:layout_constraintStart_toStartOf="@+id/weight_insert_title" />
 
         <EditText
             android:id="@+id/et_insert_weight"
@@ -132,17 +119,6 @@
             app:layout_constraintEnd_toEndOf="@+id/et_insert_weight"
             app:layout_constraintStart_toStartOf="@+id/et_insert_weight" />
 
-        <TextView
-            android:id="@+id/id_insert_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/enter_id"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/et_insert_id"
-            app:layout_constraintEnd_toEndOf="@+id/et_insert_id"
-            app:layout_constraintStart_toStartOf="@+id/et_insert_id" />
 
         <TextView
             android:id="@+id/textView"

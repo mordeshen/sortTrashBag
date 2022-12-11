@@ -16,6 +16,7 @@ import com.mor.asiorv.model.TrashBag
 import com.mor.asiorv.ui.BagListAdapter
 import com.mor.asiorv.util.TopSpacingItemDecoration
 import com.mor.asiorv.util.visiBool
+import kotlin.math.log
 
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
@@ -31,7 +32,6 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
     //    views
     lateinit var layoutEnterDetails:ConstraintLayout
     lateinit var rvLayout:ConstraintLayout
-    lateinit var idContent:TextView
     lateinit var roundsRemains:TextView
     lateinit var weightContent:TextView
     lateinit var btnAddItem:FloatingActionButton
@@ -53,24 +53,23 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
         setPointer()
         setClickListener()
         setRv()
-        testList()
+//        testList()
     }
 
     private fun addItemToList() {
-        if (!weightContent.text.isNullOrEmpty() && !idContent.text.isNullOrEmpty()){
+        if (!weightContent.text.isNullOrEmpty() ){
             val weight = weightContent.text.toString().toDouble()
-            val title = idContent.text.toString()
 
 
             if (weight in 1.01..1.99){
                 val index = calcIndex(weight)
-                list1Kg.add(index,TrashBag(weight = weight, title = title))
+                list1Kg.add(index,TrashBag(weight = weight))
 
                 //updateUI
                 changeUi(false)
                 Toast.makeText(this, "Bag Added", Toast.LENGTH_SHORT).show()
             }else if (weight > 1.99 && weight <=3){
-                list2Kg.add(TrashBag(weight = weight, title = title))
+                list2Kg.add(TrashBag(weight = weight))
 
                 //updateUI
                 changeUi(false)
@@ -84,7 +83,6 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
         }
 
         weightContent.text = ""
-        idContent.text = ""
 
     }
 
@@ -116,25 +114,32 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
 
         if(list2.isNotEmpty() || list1.isNotEmpty()){
             list1.sortedBy { it.weight }
-            Toast.makeText(this, "calculating...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "calculating... ", Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "prepareDataForList: 1 ${list1.size} 2 ${list2.size}", )
 
-            var end: Int = list1.size-1
+            var end: Int = list1.lastIndex
             var start = 0
-            while (end>start){
-                val current = PairTrashBag(list1[start], list1[end])
-                if (current.check()){
-                    totalList.add(current)
-                    start ++
-                    end --
+            while (end>=start){
+                if(end>start){
+                    val current = PairTrashBag(list1[start], list1[end])
+                    if (current.check()){
+                        totalList.add(current)
+                        start ++
+                        end --
+                    }else{
+                        totalList.add(PairTrashBag(trash1 = list1[end]))
+                        end --
+                    }
                 }else{
-                    list2.add(list1[end])
-                    end --
+                    totalList.add(PairTrashBag(trash1 = list1[end]))
+                    start++
                 }
             }
 
             list2.forEach {
                 totalList.add(PairTrashBag(it))
             }
+            Log.e(TAG, "prepareDataForList: 1- ${list1.size} 2- ${list2.size} total ${totalList.size}", )
             updateAndShowRv(true)
         }else{
             Toast.makeText(this, "please add bags to the list", Toast.LENGTH_SHORT).show()
@@ -143,7 +148,9 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
     }
 
     private fun updateAndShowRv(isVisible: Boolean) {
+        
         listAdapter.submitList(totalList.toMutableList())
+        Log.e(TAG, "updateAndShowRv: 1- ${list1Kg.size} 2- ${list2Kg.size} total ${totalList.size}", )
         rvLayout.visiBool(isVisible)
         rv.visiBool(isVisible)
         roundsRemains.text = totalList.size.toString()
@@ -166,7 +173,6 @@ class MainActivity : AppCompatActivity(),BagListAdapter.Interaction {
     private fun setPointer() {
         btnAddItem = findViewById(R.id.btn_add_item)
         layoutEnterDetails = findViewById(R.id.insert_details_layout)
-        idContent = findViewById(R.id.et_insert_id)
         weightContent = findViewById(R.id.et_insert_weight)
         rv = findViewById(R.id.trash_bag_list)
         btnCalc = findViewById(R.id.btn_calculate_now)
